@@ -1,22 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: simple-nginx-test
+  name: guestbook-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
+  ㅡㅜㅑ
   source:
-    repoURL: https://github.com/social-archive/argo_test.git
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
     targetRevision: HEAD
-    path: manifests  # manifests 디렉토리만 배포
+    path: guestbook
   destination:
     server: https://kubernetes.default.svc
-    namespace: nginx-test
+    namespace: guestbook
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true

@@ -1,0 +1,47 @@
+# GitHub Repository에서 ArgoCD로 배포할 Application 예제
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-github-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_USERNAME/YOUR_REPO  # 실제 repository URL로 변경
+    targetRevision: HEAD  # 또는 main, develop 등 브랜치명
+    path: manifests       # Kubernetes 매니페스트가 있는 디렉토리
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default    # 배포할 네임스페이스
+  syncPolicy:
+    automated:            # 자동 동기화 (선택사항)
+      prune: true         # 삭제된 리소스 자동 정리
+      selfHeal: true      # 수동 변경사항 자동 복원
+    syncOptions:
+      - CreateNamespace=true  # 네임스페이스 자동 생성
+
+---
+# Nginx 예제 Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-from-github
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_USERNAME/YOUR_REPO
+    targetRevision: HEAD
+    path: nginx-app       # nginx 매니페스트 디렉토리
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-github
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

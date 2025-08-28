@@ -10,6 +10,6 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 30090  # 8090 포트로 접근 가능 (새 포트 추가 필요)
+    nodePort: 30081  # 8090 포트로 접근 가능 (새 포트 추가 필요)
   selector:
     app: nginx

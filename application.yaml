@@ -1,20 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: guestbook-app
+  name: github-nginx-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  ㅡㅜㅑ
   source:
-    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    repoURL: https://github.com/social-archive/argo_test.git
     targetRevision: HEAD
-    path: guestbook
+    path: .
+    directory:
+      include: '{deployment.yaml,service.yaml}'
+      exclude: 'application.yaml'
   destination:
     server: https://kubernetes.default.svc
-    namespace: guestbook
+    namespace: github-nginx
   syncPolicy:
     automated:
       prune: true

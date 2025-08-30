@@ -12,7 +12,7 @@ spec:
     targetRevision: HEAD
     path: .
     directory:
-      include: '{deployment.yaml,service.yaml,springboot-deployment.yaml,springboot-service.yaml}'
+      include: '{deployment.yaml,service.yaml}'
       exclude: 'application.yaml'
   destination:
     server: https://kubernetes.default.svc
